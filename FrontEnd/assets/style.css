@@ -148,6 +148,11 @@ li:hover {
 	padding-right:14px;
 	border: 1px solid #1D6154;
 	font-family:'Syne';
+	cursor: pointer;
+}
+
+.inactive {
+	display: none;
 }
 
 .gallery {

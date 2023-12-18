@@ -6,13 +6,15 @@
 async function afficherTravaux() {
     const reponse = await fetch("http://localhost:5678/api/works/");
     const travaux = await reponse.json();
+    console.log(travaux);
     let i = 0
-    const valeurTravaux = JSON.stringify(travaux);
-    for (i = 0; i < valeurTravaux.length; i++){
-    const gallery = document.querySelector(".gallery");
-    const figure = document.createElement("figure");
-    const imageTravaux = document.createElement("img");
-    imageTravaux.src = travaux[i].imageUrl;
+    for (i = 0; i < travaux.length; i++) {
+        const gallery = document.querySelector(".gallery");
+        const figure = document.createElement("figure");
+        figure.setAttribute('class', 'work');
+        figure.setAttribute('data-category-id', travaux[i].categoryId);
+        const imageTravaux = document.createElement("img");
+        imageTravaux.src = travaux[i].imageUrl;
   
         const figcaption = document.createElement("figcaption");
         figcaption.innerHTML = travaux[i].title;
@@ -24,42 +26,54 @@ async function afficherTravaux() {
 }
 afficherTravaux();
 
-async function filtrerTravaux(){
+async function afficherFiltres(){
     const reponse = await fetch("http://localhost:5678/api/categories/");
-    const categories = await reponse.json();
-    console.log(categories);
-    console.log(categories[0].name)
-    let i = 0
-    const valeurCategories = JSON.stringify(categories);
+    const categories = await reponse.json();    
+    
+    // Ajout elements dans HTML
     const zoneFiltre = document.createElement("div");
     zoneFiltre.className = 'zone_filtre';
-    
     const emplacementZoneFiltre = document.querySelector('#portfolio h2');
     emplacementZoneFiltre.appendChild(zoneFiltre);
     const boutonFiltre = document.createElement("input");
     boutonFiltre.type = 'button';
     boutonFiltre.className = 'btn_filtre';
     boutonFiltre.value = 'Tous';
+    boutonFiltre.id = 0;
     zoneFiltre.appendChild(boutonFiltre);
-    boutonFiltre.addEventListener("click", function (){
-       afficherTravaux(); 
+    boutonFiltre.addEventListener("click", function() {
+        filtreTravaux(0);
     })
-    for(i=0; i<valeurCategories.length; i++){
+
+    // JS logic
+    for(let i = 0; i < categories.length; i++) {
+        
         const boutonFiltre = document.createElement("input");
         boutonFiltre.type = 'button';
         boutonFiltre.className = 'btn_filtre';
         boutonFiltre.value = categories[i].name;
+        boutonFiltre.id = categories[i].id;
         zoneFiltre.appendChild(boutonFiltre);
-        boutonFiltre.addEventListener("click", function(){
-            console.log("fonctionne");
-            
+        boutonFiltre.addEventListener("click", function() {
+            filtreTravaux(categories[i].id);
         })
-
-        
     }
-    
-    
-
-
 }
-filtrerTravaux();
+afficherFiltres();
+
+function filtreTravaux(idFromApi) {
+    const figures = document.querySelectorAll('.work');
+
+    for (let i = 0; i < figures.length; i ++) {
+        figures[i].classList.remove('inactive');
+       
+        if (idFromApi !== 0) {
+            let categoryId = figures[i].getAttribute('data-category-id');
+            categoryId = Number(categoryId);
+
+            if (categoryId !== idFromApi) {
+                figures[i].classList.add('inactive');
+            }
+        }
+    }
+}
