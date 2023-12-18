@@ -61,17 +61,17 @@ async function afficherFiltres(){
 }
 afficherFiltres();
 
-function filtreTravaux(idFromApi) {
+function filtreTravaux(id) {
     const figures = document.querySelectorAll('.work');
 
     for (let i = 0; i < figures.length; i ++) {
         figures[i].classList.remove('inactive');
        
-        if (idFromApi !== 0) {
+        if (id !== 0) {
             let categoryId = figures[i].getAttribute('data-category-id');
             categoryId = Number(categoryId);
 
-            if (categoryId !== idFromApi) {
+            if (categoryId !== id) {
                 figures[i].classList.add('inactive');
             }
         }
