@@ -8,7 +8,6 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
 	<meta name="description" content="">
-	<script src="works.js" defer></script>
     <script src="login.js" defer></script>
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
@@ -19,7 +18,8 @@
 		<ul>
 			<li>projets</li>
 			<li>contact</li>
-			<li>login</li>
+			<li><a href="login.html"  class="login_accueil">login</a></li>
+            <li><a href="login.html"  class="logout_accueil inactive">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -27,13 +27,15 @@
 <main>
 	<section id="login">
 		<h2>Login</h2>
-		<form action="#" method="post">
+        <div class="error">Attention, cet utilisateur n'existe pas!</div>
+		<form class="formulaire_login">
 			<label for="email">Email</label>
 			<input type="email" name="email" id="email" required>
             <label for="password">Mot de passe</label>
             <input type="password" name="password" required>
 			<input type="submit" value="Se connecter">
 		</form>
+        <a href="" class="forgot_password">Mot de passe oublié</a>
 	</section>
 </main>
 

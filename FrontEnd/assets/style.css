@@ -47,6 +47,25 @@ table {
 	border-spacing: 0;
 }
 /** end reset css**/
+
+.bandeau
+{
+	background-color: #000000;
+	display: flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: center;
+	gap:12px;
+	height:59px;
+	color:aliceblue;
+	font-size:16px;
+}
+
+.icone_edit
+{
+	width:15px;
+	height:15px;
+}
 body {
 	max-width: 1140px;
 	margin:auto;
@@ -95,8 +114,14 @@ nav li {
 	font-size: 1.2em;
 }
 
-li:hover {
+li:hover, li a:hover {
 	color: #B1663C;
+}
+
+li a{
+	text-decoration: none;
+	color:#000000;
+	cursor: pointer;
 }
 #introduction {
 	display: flex;
@@ -155,6 +180,28 @@ li:hover {
 	display: none;
 }
 
+.visibility_hidden{
+	visibility: hidden;
+}
+
+/*mes projets*/
+
+.mes_projets{
+	display:flex;
+	flex-direction: row;
+	justify-content: center;
+	align-items: baseline;
+}
+
+.icone_edit.mode_edition{
+	padding-left:31px;
+	padding-right:10px;
+}
+
+.margin_bottom{
+	margin-bottom:100px;
+}
+
 .gallery {
 	width: 100%;
 	display: grid;
@@ -208,6 +255,28 @@ input[type="submit"]{
 	width: 180px;
 	text-align: center;
 	border-radius: 60px ;
+	display:flex;
+	justify-content: center;
+}
+
+.error {
+	color : red;
+	display: none;
+}
+
+.error.visible {
+	display: block;
+}
+
+.forgot_password{
+	display: flex;
+	justify-content: center;
+	margin-top:28px;
+	font-size:14px;
+	color:#3D3D3D;
+	font-family: 'Work Sans';
+	text-align:center;
+	text-decoration: underline;
 }
 
 footer nav ul {
