@@ -3,16 +3,32 @@ const logoutAccueil = document.querySelector('.logout_accueil');
 const bandeauNoir = document.querySelector('.bandeau');
 const mesProjets = document.querySelector('.mes_projets');
 const zoneEdition = document.querySelector('.zone_edition');
-
-
 const user = window.localStorage.getItem('user');
+let travaux = null;
 
+// Js pour le Modal
+const editButton = document.getElementById('zoneEdit');
+const closeButton = document.querySelector('.close');
+const overlay = document.querySelector('.overlay');
 
+editButton.addEventListener('click', openModal);
+closeButton.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+// Fin Js pour le modal
 
-async function afficherTravaux() {
+async function init() {
+    await getTravaux();
+    afficherTravaux();
+    afficherFiltres();
+    afficherTravauxModal();
+}
+
+async function getTravaux() {
     const reponse = await fetch("http://localhost:5678/api/works/");
-    const travaux = await reponse.json();
+    travaux = await reponse.json();
+}
 
+function afficherTravaux() {
     let i = 0
     for (i = 0; i < travaux.length; i++) {
         const gallery = document.querySelector(".gallery");
@@ -30,7 +46,19 @@ async function afficherTravaux() {
 
     }
 }
-afficherTravaux();
+
+function afficherTravauxModal() {
+    console.log('affichertravaux m odal');
+    const gallery = document.querySelector('.modalGallery');
+    
+    for (let i = 0; i < travaux.length; i++) {
+        console.log(travaux[i].imageUrl);
+        const element = "<img class='modalImage' src='" + travaux[i].imageUrl + "'>";
+        
+        gallery.append(element);
+    }
+
+}
 
 async function afficherFiltres(){
     const reponse = await fetch("http://localhost:5678/api/categories/");
@@ -77,7 +105,6 @@ async function afficherFiltres(){
     }
     
 }
-afficherFiltres();
 
 function filtreTravaux(id) {
     const figures = document.querySelectorAll('.work');
@@ -100,3 +127,15 @@ function logout() {
     window.localStorage.clear();
     window.location.replace('./login.html');
 }
+
+function openModal() {
+    const modale = document.getElementById('modale1');
+    modale.classList.remove('hidden');
+}
+
+function closeModal() {
+    const modale = document.getElementById('modale1');
+    modale.classList.add('hidden');
+}
+
+init();

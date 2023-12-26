@@ -7,7 +7,9 @@
 	<link rel="preconnect" href="https://fonts.googleapis.com">
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=Work+Sans&display=swap" rel="stylesheet">
-	<meta name="description" content="">	
+	<meta name="description" content="">
+	<script src="works.js" defer></script>
+	
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <div class="bandeau inactive"><img src="assets/icons/Vector.svg" class="icone_edit" alt="icone edition"/>Mode édition</div>
@@ -38,34 +40,25 @@
 	</section>
 	<section id="portfolio">
 		<div class="mes_projets">
-			<h2 clss="h2_projets">Mes Projets</h2>
-				<div class="zone_edition" id="zoneEdit">
-					<img src="assets/icons/Group.svg" class="icone_edit mode_edition" alt="icone edition"/>
-					<p>Mode édition</p>
-				</div>
+			<h2 clss="h2_projets">Mes Projets</h2><div class="zone_edition"><img src="assets/icons/Group.svg" class="icone_edit mode_edition" alt="icone edition"/>Mode édition</div>
 		</div>
-
-		<div id="modale1" class="modal hidden">
-			<div class="overlay"></div>
-			<div class="modal-wrapper">
-				<button class="close">X</button>
-				
-				<div class="modalPage1">
-					<h2>Gallery</h2>
-					<div class="modalGallery">
-
-					</div>
-				</div>
-
-				<div class="modalPage2 hidden">
-					a remplir plus tard
-				</div>
-
-
-			</div>
+		<a href="#modale1" class="js-modal">Ouvrir la boite modale</a>
+        
+		<aside id="modale2" class="modal" aria-hidden="true" role="dialog" aria-labelledby="titlemodal" style="display: none;">
+			<div class="modal-wrapper js-modal-stop">
+				<button class="js-modal-close">Fermer la boite modale</button>
+				<h2 id="titlemodal">Designer d'espace</h2>
+			<p>Je raconte votre histoire, je valorise vos idées. Je vous accompagne de la conception à la livraison finale du chantier.</p>
+			<p>Chaque projet sera étudié en commun, de façon à mettre en valeur les volumes, les matières et les couleurs dans le respect de l’esprit des lieux et le choix adapté des matériaux. Le suivi du chantier sera assuré dans le souci du détail, le respect du planning et du budget.</p>
+			<p>En cas de besoin, une équipe pluridisciplinaire peut-être constituée : architecte DPLG, décorateur(trice)</p>
+				<input type="text">
+				<a href="#">hhh</a>
+		
 		</div>
-
-		<div class="gallery"></div>
+		</aside>
+		<div class="gallery">
+			
+		</div>
 	</section>
 	<section id="contact">
 		<h2>Contact</h2>
@@ -89,6 +82,6 @@
 		</ul>
 	</nav>
 </footer>
-<script src="works.js" defer></script>
+<script src="app.js" defer></script>
 </body>
 </html>

@@ -8,7 +8,7 @@ formLogin.addEventListener("submit", async function (event) {
 
     jsonUtilisateur = JSON.stringify(utilisateur);
 
-    // window.localStorage.setItem('utilisateur',jsonUtilisateur);
+   
     
     const chargeUtile = jsonUtilisateur;
 
