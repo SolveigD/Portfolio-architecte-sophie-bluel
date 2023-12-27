@@ -48,14 +48,18 @@ function afficherTravaux() {
 }
 
 function afficherTravauxModal() {
-    console.log('affichertravaux m odal');
+    console.log('affichertravaux modal');
     const gallery = document.querySelector('.modalGallery');
+    
+
     
     for (let i = 0; i < travaux.length; i++) {
         console.log(travaux[i].imageUrl);
-        const element = "<img class='modalImage' src='" + travaux[i].imageUrl + "'>";
-        
-        gallery.append(element);
+        //const element = "<img class='modalImage' src='" + travaux[i].imageUrl + "'>";
+        const imageModal = document.createElement('img');
+        imageModal.src = travaux[i].imageUrl;
+        imageModal.classList.add('image_modal');
+        gallery.append(imageModal);
     }
 
 }
