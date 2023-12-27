@@ -246,6 +246,25 @@ li a{
 	border-radius:10px;
 }
 
+.container_trashcan{
+	background-color:black;
+	height:17px;
+	width:17px;
+	border-radius:2px;
+	display:flex;
+	justify-content: center;
+    align-items: center;
+	position:absolute;
+	margin-top: -100px;
+    margin-left: 55px;
+}
+
+.trashcan{
+	background-color:black;
+	height:11px;
+	width:9px;
+}
+
 .close{
 	display:flex;
 	justify-content: right;
@@ -254,6 +273,7 @@ li a{
 .image_modal{
 	width:76.86px;
 	height:auto;
+	position:relative;
 }
 
 .line_modal{

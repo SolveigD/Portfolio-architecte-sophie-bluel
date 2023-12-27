@@ -54,12 +54,21 @@ function afficherTravauxModal() {
 
     
     for (let i = 0; i < travaux.length; i++) {
-        console.log(travaux[i].imageUrl);
-        //const element = "<img class='modalImage' src='" + travaux[i].imageUrl + "'>";
+        const containerImage = document.createElement('div');
+        containerImage.classList.add('container_image_modal');
         const imageModal = document.createElement('img');
         imageModal.src = travaux[i].imageUrl;
         imageModal.classList.add('image_modal');
-        gallery.append(imageModal);
+        const containerTrashcan = document.createElement('div');
+        containerTrashcan.classList.add('container_trashcan');
+        const trashCan = document.createElement('img');
+        trashCan.src = "./assets/icons/trash-can-solid.svg";
+        trashCan.classList.add('trashcan')
+        gallery.append(containerImage);
+        containerImage.appendChild(imageModal)
+       containerImage.appendChild(containerTrashcan);
+       containerTrashcan.append(trashCan);
+        console.log(trashCan);
     }
 
 }
