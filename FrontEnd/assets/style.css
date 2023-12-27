@@ -246,23 +246,20 @@ li a{
 	border-radius:10px;
 }
 
-.container_trashcan{
-	background-color:black;
-	height:17px;
-	width:17px;
-	border-radius:2px;
-	display:flex;
-	justify-content: center;
-    align-items: center;
-	position:absolute;
-	margin-top: -100px;
-    margin-left: 55px;
+.container_image_modal {
+	position: relative;
 }
 
 .trashcan{
-	background-color:black;
-	height:11px;
-	width:9px;
+	background-color: black;
+    height: 11px;
+    width: 9px;
+    padding: 5px;
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border-radius: 5px;
+	cursor: pointer;
 }
 
 .close{
@@ -293,7 +290,7 @@ li a{
 	padding-right:105px;
 }
 
-input[type="submit"].modal_button{
+.modal_button.button{
 	width: 237px;
 	height: 36px;
 	padding-top: 10px;
@@ -303,6 +300,7 @@ input[type="submit"].modal_button{
 	border:none;
 	font-size:14px;
 	margin-top:38px;
+	cursor: pointer;
 }
 
 .gallery {
@@ -358,7 +356,7 @@ margin: auto;
 	box-shadow: 0px 4px 14px rgba(0, 0, 0, 0.09);
 }
 
-input[type="submit"]{
+.button{
 	font-family: 'Syne';
 	font-weight: 700;
 	color: white;

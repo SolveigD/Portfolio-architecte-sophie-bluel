@@ -10,10 +10,14 @@ let travaux = null;
 const editButton = document.getElementById('zoneEdit');
 const closeButton = document.querySelector('.close');
 const overlay = document.querySelector('.overlay');
+const changerPage2 = document.querySelector('.changer_page_2');
 
 editButton.addEventListener('click', openModal);
 closeButton.addEventListener('click', closeModal);
 overlay.addEventListener('click', closeModal);
+changerPage2.addEventListener('click', function() {
+    changerPage(2);
+});
 // Fin Js pour le modal
 
 async function init() {
@@ -35,6 +39,8 @@ function afficherTravaux() {
         const figure = document.createElement("figure");
         figure.setAttribute('class', 'work');
         figure.setAttribute('data-category-id', travaux[i].categoryId);
+        figure.setAttribute('data-work-id', travaux[i].id);
+
         const imageTravaux = document.createElement("img");
         imageTravaux.src = travaux[i].imageUrl;
   
@@ -48,29 +54,56 @@ function afficherTravaux() {
 }
 
 function afficherTravauxModal() {
-    console.log('affichertravaux modal');
     const gallery = document.querySelector('.modalGallery');
-    
-
     
     for (let i = 0; i < travaux.length; i++) {
         const containerImage = document.createElement('div');
         containerImage.classList.add('container_image_modal');
+        containerImage.setAttribute('data-work-id', travaux[i].id);
+
         const imageModal = document.createElement('img');
         imageModal.src = travaux[i].imageUrl;
         imageModal.classList.add('image_modal');
-        const containerTrashcan = document.createElement('div');
-        containerTrashcan.classList.add('container_trashcan');
+
         const trashCan = document.createElement('img');
         trashCan.src = "./assets/icons/trash-can-solid.svg";
         trashCan.classList.add('trashcan')
+
         gallery.append(containerImage);
         containerImage.appendChild(imageModal)
-       containerImage.appendChild(containerTrashcan);
-       containerTrashcan.append(trashCan);
-        console.log(trashCan);
-    }
+        containerImage.appendChild(trashCan);
+        
+        trashCan.addEventListener('click', async function(event) {
+            const container = event.target.parentElement;
+            const id = Number(container.getAttribute('data-work-id'));
+            const reponse = await supprimerTravailAPI(id);
 
+            if (reponse) {
+                //Deleter le travail dans le modal
+                container.remove();
+
+                // Deleter le travail sur la page
+                const  travail = document.querySelector(`[data-work-id="${id}"]`);
+                travail.remove();
+            } else {
+                alert('Erreur!');
+            }
+        })
+    }
+}
+
+async function supprimerTravailAPI(id) {
+    const user = JSON.parse(window.localStorage.getItem('user'));
+    const response = await fetch("http://localhost:5678/api/works/" + id, {
+      method: "DELETE",
+      headers: { 
+        "Content-Type": "application/json", 
+        "accept": "*/*",
+        "Authorization": `Bearer ${user.token}`
+    }
+    });
+    
+    return response.ok;
 }
 
 async function afficherFiltres(){
@@ -149,6 +182,21 @@ function openModal() {
 function closeModal() {
     const modale = document.getElementById('modale1');
     modale.classList.add('hidden');
+}
+
+function changerPage(numeroDePage) {
+    const modalPage1 = document.querySelector('.modalPage1');
+    const modalPage2 = document.querySelector('.modalPage2');
+
+    if (numeroDePage === 1) {
+        // afficher page 1 et cacher page 2
+        modalPage1.classList.remove('hidden');
+        modalPage2.classList.add('hidden');
+    } else if (numeroDePage === 2) {
+        // afficher page 2 et cacher page 1
+        modalPage1.classList.add('hidden');
+        modalPage2.classList.remove('hidden');
+    }
 }
 
 init();
