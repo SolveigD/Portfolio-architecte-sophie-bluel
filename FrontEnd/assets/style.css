@@ -316,7 +316,7 @@ li a{
 	border:none;
 	font-size:14px;
 	margin-top:38px;
-	cursor: ;
+	cursor: pointer;
 }
 
 /*modal 2*/
@@ -326,7 +326,7 @@ li a{
 	padding-right:105px;
 }
 
-.section_ajout_photo
+.section_ajout_photo, .pasImage
 {
 	display: flex;
 	flex-direction: column;
@@ -334,6 +334,14 @@ li a{
 	width:420px;
 	border-radius: 3px;
 	background: #E8F1F6;
+}
+
+.ouiImage {
+	text-align: center;
+}
+
+.ouiImage img{
+	height: 188px;
 }
 
 .image_download{
@@ -357,6 +365,11 @@ li a{
     font-style: normal;
     font-weight: 500;
 	margin-top:6px;
+	cursor: pointer;
+}
+
+.telecharger_img {
+	visibility: hidden;
 }
 
 .section_ajout_photo p{

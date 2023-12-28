@@ -4,13 +4,21 @@ const bandeauNoir = document.querySelector('.bandeau');
 const mesProjets = document.querySelector('.mes_projets');
 const zoneEdition = document.querySelector('.zone_edition');
 const user = window.localStorage.getItem('user');
+let categories = null;
 let travaux = null;
+
+// Form Data
+let formData = new FormData();
+let image = null;
 
 // Js pour le Modal
 const editButton = document.getElementById('zoneEdit');
 const closeButton = document.querySelector('.close');
 const overlay = document.querySelector('.overlay');
 const changerPage2 = document.querySelector('.changer_page_2');
+const changerPage1 = document.querySelector('.back');
+const envoyerImage = document.querySelector('.btn_envoyer_img');
+const validerForm = document.querySelector('#validerForm');
 
 editButton.addEventListener('click', openModal);
 closeButton.addEventListener('click', closeModal);
@@ -18,13 +26,24 @@ overlay.addEventListener('click', closeModal);
 changerPage2.addEventListener('click', function() {
     changerPage(2);
 });
+changerPage1.addEventListener('click', function() {
+    changerPage(1);
+});
+
+envoyerImage.addEventListener('click', function (e){
+    capturerImage();   
+});
+
+validerForm.addEventListener('click', validerFormulaire);
+
 // Fin Js pour le modal
 
 async function init() {
     await getTravaux();
     afficherTravaux();
-    afficherFiltres();
+    await afficherFiltres();
     afficherTravauxModal();
+    afficherCategoriesOption();
 }
 
 async function getTravaux() {
@@ -108,7 +127,7 @@ async function supprimerTravailAPI(id) {
 
 async function afficherFiltres(){
     const reponse = await fetch("http://localhost:5678/api/categories/");
-    const categories = await reponse.json();    
+    categories = await reponse.json();    
     
     // Ajout elements dans HTML
     const zoneFiltre = document.createElement("div");
@@ -199,31 +218,83 @@ function changerPage(numeroDePage) {
         modalPage1.classList.add('hidden');
         modalPage2.classList.remove('hidden');
         arrowBack.classList.remove('hide');
-        arrowBack.addEventListener('click', function(){
-            modalPage1.classList.remove('hidden');
-            modalPage2.classList.add('hidden');
-            arrowBack.classList.add('hide');
-        })
     }
 }
 
-
 async function afficherCategoriesOption (){
-const selectCategories = document.querySelector(".select_category");
-const reponse = await fetch("http://localhost:5678/api/categories/");
-const categories = await reponse.json();
+    const selectCategories = document.querySelector(".select_category");
 
-for (let i = 0; i<categories.length; i++){
-  const optionCategories = document.createElement("option");
-    optionCategories.value = categories[i].name;
-    optionCategories.innerHTML = categories[i].name;
-    selectCategories.appendChild(optionCategories);
-  
-}
-
+    for (let i = 0; i < categories.length; i++){
+        const optionCategories = document.createElement("option");
+        optionCategories.value = categories[i].name;
+        optionCategories.id = categories[i].id;
+        optionCategories.innerHTML = categories[i].name;
+        optionCategories.classList.add('option_categorie')
+        selectCategories.appendChild(optionCategories);
+    }
 
 }
 
-afficherCategoriesOption();
+async function capturerImage(){
+    const telechargerImage = document.querySelector('.telecharger_img');
+    await telechargerImage.click();
 
-init()
+    telechargerImage.addEventListener('change', function loaderImage() {
+        image = telechargerImage.files[0];   
+        telechargerImage.removeEventListener('change', loaderImage);
+
+        if (image) {
+            const pasImage = document.querySelector('.pasImage');
+            const ouiImage = document.querySelector('.ouiImage');
+            pasImage.classList.add('hidden');
+            ouiImage.classList.remove('hidden');
+
+            const imageContainer = document.querySelector('.ouiImage img');
+            const blob = new Blob([image], { type: image.type });
+            const src =  URL.createObjectURL(blob);
+            imageContainer.src = src;
+            formData.append('imageUrl', src);
+        }
+    });
+
+}
+
+
+
+
+async function validerFormulaire() {
+     
+
+    const titreImage = document.querySelector('.label_titre');
+    const titreImageValue = titreImage.value;
+    const categoriesOptions = document.querySelector('.option_categorie');
+    const categoriesValue = categoriesOptions.value;
+    const categoriesId = categoriesOptions.id;
+   
+    
+        formData.append('id', 0)
+        
+        formData.append('title', titreImageValue);
+        formData.append('category', categoriesId);
+        formData.append('userId', 0)
+        formData.forEach((value, key) => {
+            console.log(key, value);
+          });
+
+        const answer = await fetch('http://localhost:5678/api/works/', {
+            method: 'POST',
+            headers: { 
+                "Content-Type": "application/json",
+                "accept": "multipart/form-data", 
+                "Authorization": `Bearer ${user.token}`
+            },
+            body: formData
+        });
+
+        console.log(answer);
+        console.log(categoriesValue);
+        
+}
+
+
+init();
