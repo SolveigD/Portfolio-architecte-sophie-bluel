@@ -187,16 +187,43 @@ function closeModal() {
 function changerPage(numeroDePage) {
     const modalPage1 = document.querySelector('.modalPage1');
     const modalPage2 = document.querySelector('.modalPage2');
+    const arrowBack = document.querySelector('.back');
 
     if (numeroDePage === 1) {
         // afficher page 1 et cacher page 2
         modalPage1.classList.remove('hidden');
         modalPage2.classList.add('hidden');
+        arrowBack.classList.add('hide');
     } else if (numeroDePage === 2) {
         // afficher page 2 et cacher page 1
         modalPage1.classList.add('hidden');
         modalPage2.classList.remove('hidden');
+        arrowBack.classList.remove('hide');
+        arrowBack.addEventListener('click', function(){
+            modalPage1.classList.remove('hidden');
+            modalPage2.classList.add('hidden');
+            arrowBack.classList.add('hide');
+        })
     }
 }
 
-init();
+
+async function afficherCategoriesOption (){
+const selectCategories = document.querySelector(".select_category");
+const reponse = await fetch("http://localhost:5678/api/categories/");
+const categories = await reponse.json();
+
+for (let i = 0; i<categories.length; i++){
+  const optionCategories = document.createElement("option");
+    optionCategories.value = categories[i].name;
+    optionCategories.innerHTML = categories[i].name;
+    selectCategories.appendChild(optionCategories);
+  
+}
+
+
+}
+
+afficherCategoriesOption();
+
+init()
