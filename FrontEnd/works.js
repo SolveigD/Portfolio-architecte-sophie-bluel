@@ -253,8 +253,12 @@ async function capturerImage(){
             const blob = new Blob([image], { type: image.type });
             const src =  URL.createObjectURL(blob);
             imageContainer.src = src;
-            formData.append('imageUrl', src);
+            formData.append('image', src);
         }
+
+
+
+ 
     });
 
 }
@@ -269,14 +273,13 @@ async function validerFormulaire() {
     const titreImageValue = titreImage.value;
     const categoriesOptions = document.querySelector('.option_categorie');
     const categoriesValue = categoriesOptions.value;
-    const categoriesId = categoriesOptions.id;
-   
+    const categoriesId = JSON.stringify(categoriesOptions.id);
+    const categoryId = categoriesOptions.id;
     
-        formData.append('id', 0)
+    //const categoryId = categoriesOptions.id;
         
         formData.append('title', titreImageValue);
-        formData.append('category', categoriesId);
-        formData.append('userId', 0)
+        formData.append('category', categoryId);
         formData.forEach((value, key) => {
             console.log(key, value);
           });
@@ -284,8 +287,8 @@ async function validerFormulaire() {
         const answer = await fetch('http://localhost:5678/api/works/', {
             method: 'POST',
             headers: { 
-                "Content-Type": "application/json",
-                "accept": "multipart/form-data", 
+               // "accept": "multipart/form-data",
+                 "Content-Type": "application/json", 
                 "Authorization": `Bearer ${user.token}`
             },
             body: formData
