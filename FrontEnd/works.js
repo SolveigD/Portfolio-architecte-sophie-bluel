@@ -2,10 +2,15 @@ const loginAccueil = document.querySelector('.login_accueil');
 const logoutAccueil = document.querySelector('.logout_accueil');
 const bandeauNoir = document.querySelector('.bandeau');
 const mesProjets = document.querySelector('.mes_projets');
+const gallery = document.querySelector(".gallery");
 const zoneEdition = document.querySelector('.zone_edition');
 const user = window.localStorage.getItem('user');
+let newImage = null;
 let categories = null;
 let travaux = null;
+let titreImageValue = null;
+let categoryId = null;
+let optionCategories = null;
 
 // Form Data
 let formData = new FormData();
@@ -54,7 +59,7 @@ async function getTravaux() {
 function afficherTravaux() {
     let i = 0
     for (i = 0; i < travaux.length; i++) {
-        const gallery = document.querySelector(".gallery");
+       
         const figure = document.createElement("figure");
         figure.setAttribute('class', 'work');
         figure.setAttribute('data-category-id', travaux[i].categoryId);
@@ -251,19 +256,15 @@ async function capturerImage(){
 
             const imageContainer = document.querySelector('.ouiImage img');
             const blob = new Blob([image], { type: image.type });
-            const src =  URL.createObjectURL(blob);
-            imageContainer.src = src;
-            formData.append('image', src);
+            newImage =  URL.createObjectURL(blob);
+            imageContainer.src = newImage;
+            formData.append('image', image);
+
+           
         }
-
-
-
- 
     });
 
 }
-
-
 
 
 async function validerFormulaire() {
@@ -271,33 +272,68 @@ async function validerFormulaire() {
 
     const titreImage = document.querySelector('.label_titre');
     const titreImageValue = titreImage.value;
-    const categoriesOptions = document.querySelector('.option_categorie');
-    const categoriesValue = categoriesOptions.value;
-    const categoriesId = JSON.stringify(categoriesOptions.id);
-    const categoryId = categoriesOptions.id;
+    const selectCategories = document.querySelector('.select_category');
+    const selectedOption = selectCategories.selectedOptions[0];
+    const categoryId = selectedOption.id;
     
-    //const categoryId = categoriesOptions.id;
+  
         
         formData.append('title', titreImageValue);
-        formData.append('category', categoryId);
-        formData.forEach((value, key) => {
-            console.log(key, value);
-          });
+        formData.append('category', Number(categoryId));
+        
+        const user = JSON.parse(window.localStorage.getItem('user'));
 
         const answer = await fetch('http://localhost:5678/api/works/', {
             method: 'POST',
             headers: { 
-               // "accept": "multipart/form-data",
-                 "Content-Type": "application/json", 
+            
                 "Authorization": `Bearer ${user.token}`
             },
             body: formData
         });
 
-        console.log(answer);
-        console.log(categoriesValue);
+      
+
+       if (answer.ok) {
+      //    addNewWork();
+      const figure = document.createElement('figure');    
+      const image = document.createElement('img');
+      image.src = newImage;
+      const titre = document.createElement('figcaption');
+      titre.innerHTML = titreImageValue;
+      figure.classList.add('work');
+      figure.setAttribute('data-category-id', categoryId);
+    
+
+      gallery.appendChild(figure);
+      figure.appendChild(image);
+      figure.appendChild(titre);
+      
+      closeModal();
+          
+       }
         
 }
+
+function addNewWork() {
+  
+  //  const figure = document.createElement('figure');
+   // const image = document.createElement('img');
+    
+ //   figure.setAttribute('data-category-id', Number(categoryId));
+ 
+   
+  //  image.src = newImage;
+  // const titre = document.createElement('figcaption');
+ //  titre.innerHTML = titreImageValue;
+   
+  // gallery.appendChild(figure);
+  // figure.appendChild(image);
+  // figure.appendChild(titre);
+
+  
+
+}  
 
 
 init();
