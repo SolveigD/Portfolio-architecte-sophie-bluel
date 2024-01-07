@@ -12,12 +12,13 @@
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
 <body>
+<div class="main-container">	
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li>projets</li>
-			<li>contact</li>
+			<li><a href="index.html">projets</a></li>
+			<li><a href="index.html">contact</a></li>
 			<li><a href="login.html"  class="login_accueil">login</a></li>
             <li><a href="login.html"  class="logout_accueil inactive">logout</a></li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
@@ -29,11 +30,11 @@
 		<h2>Login</h2>
         <div class="error">Attention, cet utilisateur n'existe pas!</div>
 		<form class="formulaire_login">
-			<label for="email">Email</label>
-			<input type="email" name="email" id="email" required>
-            <label for="password">Mot de passe</label>
-            <input type="password" name="password" required>
-			<input type="submit" value="Se connecter">
+			<label for="email" class="label_login">Email</label>
+			<input type="email" name="email" id="email" class="input_login" required>
+            <label for="password" class="label_login">Mot de passe</label>
+            <input type="password" name="password" class="input_login" required>
+			<input type="submit" value="Se connecter" class="button button_login">
 		</form>
         <a href="" class="forgot_password">Mot de passe oublié</a>
 	</section>
@@ -46,5 +47,6 @@
 		</ul>
 	</nav>
 </footer>
+</div>
 </body>
 </html>

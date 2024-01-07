@@ -10,16 +10,18 @@
 	<meta name="description" content="">	
 	<link rel="stylesheet" href="./assets/style.css">
 </head>
-<div class="bandeau inactive"><img src="assets/icons/Vector.svg" class="icone_edit" alt="icone edition"/>Mode édition</div>
+
 <body>
+	<div class="bandeau inactive"><img src="assets/icons/Vector.svg" class="icone_edit" alt="icone edition"/>Mode édition</div>
+	<div class ="main-container">
 <header>
 	<h1>Sophie Bluel <span>Architecte d'intérieur</span></h1>
 	<nav>
 		<ul>
-			<li class="image"><a href="#portfolio">projets</a></li>
-			<li class="image"><a href="#contact">contact</a></li>
+			<li><a href="#portfolio">projets</a></li>
+			<li><a href="#contact">contact</a></li>
 			<li class="image"><a href="login.html"  class="login_accueil">login</a></li>
-			<li class="logout_accueil inactive" onclick="logout()">logout</li>
+			<li class="logout_accueil inactive">logout</li>
 			<li><img src="./assets/icons/instagram.png" alt="Instagram"></li>
 		</ul>
 	</nav>
@@ -39,9 +41,9 @@
 	<section id="portfolio">
 		<div class="mes_projets">
 			<h2 clss="h2_projets">Mes Projets</h2>
-				<div class="zone_edition" id="zoneEdit">
+				<div class="zone_edition inactive" id="zoneEdit">
 					<img src="assets/icons/Group.svg" class="icone_edit mode_edition" alt="icone edition"/>
-					<p>Mode édition</p>
+					<p>Modifier</p>
 				</div>
 		</div>
 
@@ -73,7 +75,7 @@
 						<div class="pasImage">
 							<img src="assets/icons/picture-svgrepo-com 1.svg" class="image_download" alt="image de televersement">
 							<button class="btn_envoyer_img">+ Ajouter photo</button>
-							<input type="file" name="image" id="inputImage" accept="image/*" class="telecharger_img">
+							<input type="file" name="image" id="inputImage" accept="image/png, image/jpeg" class="telecharger_img">
 							
 							<p>Jpg, png: 4Mo max</p>
 						</div>
@@ -89,7 +91,7 @@
 					
 					</form>
 					<div class="line_modal modal2"></div>
-					<input type="submit" class="modal_button button" id="validerForm" value="Valider">
+					<input type="submit" class="modal_button button disabled" disabled id="validerForm" value="Valider" >
 				</div>
 				
 
@@ -121,6 +123,6 @@
 	</nav>
 </footer>
 <script src="works.js" defer></script>
-
+</div>
 </body>
 </html>

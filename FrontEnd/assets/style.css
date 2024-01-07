@@ -63,6 +63,8 @@ table {
 	height:59px;
 	color:aliceblue;
 	font-size:16px;
+	width:100%;
+	font-family:'Work Sans';
 }
 
 .icone_edit
@@ -70,12 +72,14 @@ table {
 	width:15px;
 	height:15px;
 }
-body {
+.main-container {
 	max-width: 1140px;
 	margin:auto;
 	font-family: 'Work Sans' ;
 	font-size: 14px;
 }
+
+
 header {
 	display: flex;
 	justify-content: space-between;
@@ -116,6 +120,21 @@ nav ul {
 nav li {
 	padding: 0 10px;
 	font-size: 1.2em;
+	font-family:'Work Sans';
+	cursor:pointer;
+}
+
+.label_login{
+	color: #3D3D3D;
+	font-family: 'Work Sans';
+	font-size: 14px;
+	font-style: normal;
+	font-weight: 500;
+	line-height: normal;
+}
+
+.input_login:focus-visible{
+	outline:none;
 }
 
 li:hover, li a:hover {
@@ -181,6 +200,7 @@ li a{
 
 .inactive {
 	display: none;
+	visibility: hidden;
 }
 
 .visibility_hidden{
@@ -318,6 +338,11 @@ li a{
 	margin-top:38px;
 	cursor: pointer;
 }
+.modal_button.button:disabled{
+	background-color:#A7A7A7;
+	cursor: initial;
+}
+
 
 /*modal 2*/
 
@@ -368,6 +393,8 @@ li a{
 	cursor: pointer;
 }
 
+
+
 .telecharger_img {
 	visibility: hidden;
 }
@@ -390,7 +417,20 @@ li a{
 	margin-bottom:21px;
 }
 
-.labelModal, .select_category{
+.input_login:focus-visible, .input_login, .label_titre, .select_category, .label_titre:focus-visible, .select_category:focus-visible{
+	outline:none;
+    font-family: 'Work Sans';
+    font-size: 14px;
+    color: #444;
+    padding-left: 16px;
+	padding-right:29px;
+}
+
+.select_category, .select_category:focus-visible{
+border-right: 29px solid white;
+}
+
+.labelModal, .select_category, .label_titre{
 	height: 50px;
     background: #FFF;
     box-shadow: 0px 4px 14px 0px rgba(0, 0, 0, 0.09);
@@ -463,6 +503,17 @@ margin: auto;
 	border-radius: 60px ;
 	display:flex;
 	justify-content: center;
+}
+
+.button.button_login
+{
+	padding-left:39px;
+	padding-right:38px;
+	width:auto;
+}
+
+.button:hover{
+	background-color:#0E2F28;
 }
 
 .error {
