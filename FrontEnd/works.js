@@ -1,7 +1,7 @@
 const loginAccueil = document.querySelector('.login_accueil'); 
 const logoutAccueil = document.querySelector('.logout_accueil');
-const bandeauNoir = document.querySelector('.bandeau');
-const mesProjets = document.querySelector('.mes_projets');
+const blackBand = document.querySelector('.blackband');
+const myProjects = document.querySelector('.my_projects');
 const gallery = document.querySelector(".gallery");
 const zoneEdition = document.querySelector('.zone_edition');
 const logOut = document.querySelector('.logout_accueil');
@@ -24,7 +24,7 @@ const closeButton = document.querySelector('.close');
 const overlay = document.querySelector('.overlay');
 const changePage2 = document.querySelector('.changer_page_2');
 const changePage1 = document.querySelector('.back');
-const envoyerImage = document.querySelector('.btn_envoyer_img');
+const sendImage = document.querySelector('.btn_send_img');
 const validerForm = document.querySelector('#validerForm');
 const formulaireTravaux = document.querySelector('.form_ajout_travaux');
 const inputImage = document.querySelector('#inputImage');
@@ -39,7 +39,7 @@ changePage1.addEventListener('click', function() {
     changePage(1);
 });
 
-envoyerImage.addEventListener('click', function (e){
+sendImage.addEventListener('click', function (e){
     capturerImage();   
 });
 
@@ -70,11 +70,6 @@ function showWorks() {
     }
 }
 
-function showWorksModal() {
-    for (let i = 0; i < travaux.length; i++) {
-        addWorkModal(travaux[i].id, travaux[i].imageUrl);
-    }
-}
 
 function addWork(id, categoryId, imageUrl, title) {
     const figure = document.createElement("figure");
@@ -91,6 +86,13 @@ function addWork(id, categoryId, imageUrl, title) {
     figure.appendChild(imageTravaux);
     figure.appendChild(figcaption);
 }
+
+function showWorksModal() {
+    for (let i = 0; i < travaux.length; i++) {
+        addWorkModal(travaux[i].id, travaux[i].imageUrl);
+    }
+}
+
 
 function addWorkModal(id, imageUrl) {
     const gallery = document.querySelector('.modalGallery');
@@ -143,6 +145,9 @@ async function deleteWorkInApi(id) {
     return response.ok;
 }
 
+
+
+
 async function showFiltres(){
     const reponse = await fetch("http://localhost:5678/api/categories/");
     categories = await reponse.json();    
@@ -178,19 +183,6 @@ async function showFiltres(){
 
 }
 
-function checkLoginStatus(){
-    if (user) {
-        loginAccueil.classList.add('inactive');
-        logoutAccueil.classList.remove('inactive');
-        bandeauNoir.classList.remove('inactive');
-        zoneFiltre.classList.add('inactive');
-        mesProjets.classList.add('margin_bottom');
-        zoneEdition.classList.remove('inactive');
-    } else {
-        logoutAccueil.classList.add('inactive');
-        zoneEdition.classList.add('inactive');
-    }
-}
 
 function filtreTravaux(id) {
     const figures = document.querySelectorAll('.work');
@@ -208,6 +200,22 @@ function filtreTravaux(id) {
         }
     }
 }
+
+function checkLoginStatus(){
+    if (user) {
+        loginAccueil.classList.add('inactive');
+        logoutAccueil.classList.remove('inactive');
+        blackBand.classList.remove('inactive');
+        zoneFiltre.classList.add('inactive');
+        myProjects.classList.add('margin_bottom');
+        zoneEdition.classList.remove('inactive');
+    } else {
+        logoutAccueil.classList.add('inactive');
+        zoneEdition.classList.add('inactive');
+    }
+}
+
+
 
 logOut.addEventListener('click', function(){
     window.localStorage.clear();
@@ -257,22 +265,22 @@ async function showCategoryOptions (){
 }
 
 async function capturerImage() {
-    const telechargerImage = document.querySelector('.telecharger_img');
-    await telechargerImage.click();
+    const downloadImage = document.querySelector('.download_img');
+    await downloadImage.click();
 
-    telechargerImage.addEventListener('change', function loaderImage() {
-        image = telechargerImage.files[0];
-        telechargerImage.removeEventListener('change', loaderImage);
+    downloadImage.addEventListener('change', function loaderImage() {
+        image = downloadImage.files[0];
+        downloadImage.removeEventListener('change', loaderImage);
         const tailleEnMo = 4;
         const tailleEnOctets = tailleEnMo * 1024 * 1024;
         if (image && image.size < tailleEnOctets ) {
-            const pasImage = document.querySelector('.pasImage');
-            const ouiImage = document.querySelector('.ouiImage');
-            pasImage.classList.add('hidden');
-            ouiImage.classList.remove('hidden');
+            const noImage = document.querySelector('.noImage');
+            const yesImage = document.querySelector('.yesImage');
+            noImage.classList.add('hidden');
+            yesImage.classList.remove('hidden');
             updaterBoutonValider();
 
-            const imageContainer = document.querySelector('.ouiImage img');
+            const imageContainer = document.querySelector('.yesImage img');
             const blob = new Blob([image], { type: image.type });
             newImage =  URL.createObjectURL(blob);
             imageContainer.src = newImage;
@@ -319,10 +327,10 @@ function resetModal() {
     image = null;
     formulaireTravaux.reset();
 
-    const pasImage = document.querySelector('.pasImage');
-    const ouiImage = document.querySelector('.ouiImage');
-    pasImage.classList.remove('hidden');
-    ouiImage.classList.add('hidden');
+    const noImage = document.querySelector('.noImage');
+    const yesImage = document.querySelector('.yesImage');
+    noImage.classList.remove('hidden');
+    yesImage.classList.add('hidden');
 
     updaterBoutonValider();
     changePage(1);

@@ -52,7 +52,7 @@ table {
 	display: none !important;
 }
 
-.bandeau
+.blackband
 {
 	background-color: #000000;
 	display: flex;
@@ -209,7 +209,7 @@ li a{
 
 /*mes projets*/
 
-.mes_projets{
+.my_projects{
 	display:flex;
 	flex-direction: row;
 	justify-content: center;
@@ -351,7 +351,7 @@ li a{
 	padding-right:105px;
 }
 
-.section_ajout_photo, .pasImage
+.section_ajout_photo, .noImage
 {
 	display: flex;
 	flex-direction: column;
@@ -361,11 +361,11 @@ li a{
 	background: #E8F1F6;
 }
 
-.ouiImage {
+.yesImage {
 	text-align: center;
 }
 
-.ouiImage img{
+.yesImage img{
 	height: 188px;
 }
 
@@ -376,7 +376,7 @@ li a{
 	padding-top:13px;
 }
 
-.btn_envoyer_img{
+.btn_send_img{
 	width: 173px;
     height: 36px;
     margin: auto;
@@ -395,7 +395,7 @@ li a{
 
 
 
-.telecharger_img {
+.download_img {
 	visibility: hidden;
 }
 

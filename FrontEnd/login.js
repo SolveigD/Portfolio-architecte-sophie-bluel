@@ -10,7 +10,7 @@ formLogin.addEventListener("submit", async function (event) {
 
    
     
-    const chargeUtile = jsonUtilisateur;
+    const payLoad = jsonUtilisateur;
 
     const response = await fetch("http://localhost:5678/api/users/login", {
       method: "POST",
