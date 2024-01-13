@@ -29,19 +29,7 @@ const validerForm = document.querySelector('#validerForm');
 const formulaireTravaux = document.querySelector('.form_ajout_travaux');
 const inputImage = document.querySelector('#inputImage');
 
-editButton.addEventListener('click', openModal);
-closeButton.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
-changePage2.addEventListener('click', function() {
-    changePage(2);
-});
-changePage1.addEventListener('click', function() {
-    changePage(1);
-});
 
-sendImage.addEventListener('click', function (e){
-    capturerImage();   
-});
 
 formulaireTravaux.addEventListener('input', updaterBoutonValider);
 
@@ -58,6 +46,8 @@ async function init() {
     checkLoginStatus();
 }
 
+// partie works et filtre //
+
 async function getWorks() {
     const reponse = await fetch("http://localhost:5678/api/works/");
     travaux = await reponse.json();
@@ -69,7 +59,6 @@ function showWorks() {
         addWork(travaux[i].id, travaux[i].categoryId, travaux[i].imageUrl, travaux[i].title);
     }
 }
-
 
 function addWork(id, categoryId, imageUrl, title) {
     const figure = document.createElement("figure");
@@ -87,12 +76,123 @@ function addWork(id, categoryId, imageUrl, title) {
     figure.appendChild(figcaption);
 }
 
-function showWorksModal() {
-    for (let i = 0; i < travaux.length; i++) {
-        addWorkModal(travaux[i].id, travaux[i].imageUrl);
+async function showFiltres(){
+    const reponse = await fetch("http://localhost:5678/api/categories/");
+    categories = await reponse.json();    
+    
+    // Ajout elements dans HTML
+    zoneFiltre = document.createElement("div");
+    zoneFiltre.className = 'zone_filtre';
+    const emplacementZoneFiltre = document.querySelector('#portfolio h2');
+    emplacementZoneFiltre.appendChild(zoneFiltre);
+    const boutonFiltre = document.createElement("input");
+    boutonFiltre.type = 'button';
+    boutonFiltre.className = 'btn_filtre';
+    boutonFiltre.value = 'Tous';
+    boutonFiltre.id = 0;
+    zoneFiltre.appendChild(boutonFiltre);
+    boutonFiltre.addEventListener("click", function() {
+        filtreTravaux(0);
+    })
+
+    // JS logic
+    for(let i = 0; i < categories.length; i++) {
+        
+        const boutonFiltre = document.createElement("input");
+        boutonFiltre.type = 'button';
+        boutonFiltre.className = 'btn_filtre';
+        boutonFiltre.value = categories[i].name;
+        boutonFiltre.id = categories[i].id;
+        zoneFiltre.appendChild(boutonFiltre);
+        boutonFiltre.addEventListener("click", function() {
+            filtreTravaux(categories[i].id);
+        })
+    }
+
+}
+
+function filtreTravaux(id) {
+    const figures = document.querySelectorAll('.work');
+
+    for (let i = 0; i < figures.length; i ++) {
+        figures[i].classList.remove('inactive');
+       
+        if (id !== 0) {
+            let categoryId = figures[i].getAttribute('data-category-id');
+            categoryId = Number(categoryId);
+
+            if (categoryId !== id) {
+                figures[i].classList.add('inactive');
+            }
+        }
     }
 }
 
+// partie login //
+
+function checkLoginStatus(){
+    if (user) {
+        loginAccueil.classList.add('inactive');
+        logoutAccueil.classList.remove('inactive');
+        blackBand.classList.remove('inactive');
+        zoneFiltre.classList.add('inactive');
+        myProjects.classList.add('margin_bottom');
+        zoneEdition.classList.remove('inactive');
+    } else {
+        logoutAccueil.classList.add('inactive');
+        zoneEdition.classList.add('inactive');
+    }
+}
+
+logOut.addEventListener('click', function(){
+    window.localStorage.clear();
+    window.location.replace('./login.html');
+})
+   
+// partie modale//
+
+// ouvrir et fermer modale //
+
+function openModal() {
+    const modale = document.getElementById('modale1');
+    modale.classList.remove('hidden');
+}
+
+function closeModal() {
+    const modale = document.getElementById('modale1');
+    modale.classList.add('hidden');
+}
+
+function changePage(pageNumber) {
+    const modalPage1 = document.querySelector('.modalPage1');
+    const modalPage2 = document.querySelector('.modalPage2');
+    const arrowBack = document.querySelector('.back');
+
+    if (pageNumber === 1) {
+        // afficher page 1 et cacher page 2
+        modalPage1.classList.remove('hidden');
+        modalPage2.classList.add('hidden');
+        arrowBack.classList.add('hide');
+    } else if (pageNumber === 2) {
+        // afficher page 2 et cacher page 1
+        modalPage1.classList.add('hidden');
+        modalPage2.classList.remove('hidden');
+        arrowBack.classList.remove('hide');
+    }
+}
+
+editButton.addEventListener('click', openModal);
+closeButton.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
+changePage2.addEventListener('click', function() {
+    changePage(2);
+});
+changePage1.addEventListener('click', function() {
+    changePage(1);
+});
+
+
+// ajouter travaux a modale//
 
 function addWorkModal(id, imageUrl) {
     const gallery = document.querySelector('.modalGallery');
@@ -131,6 +231,15 @@ function addWorkModal(id, imageUrl) {
     })
 }
 
+
+function showWorksModal() {
+    for (let i = 0; i < travaux.length; i++) {
+        addWorkModal(travaux[i].id, travaux[i].imageUrl);
+    }
+}
+
+// supprimer travaux modale //
+
 async function deleteWorkInApi(id) {
     const user = JSON.parse(window.localStorage.getItem('user'));
     const response = await fetch("http://localhost:5678/api/works/" + id, {
@@ -144,125 +253,8 @@ async function deleteWorkInApi(id) {
     
     return response.ok;
 }
-
-
-
-
-async function showFiltres(){
-    const reponse = await fetch("http://localhost:5678/api/categories/");
-    categories = await reponse.json();    
-    
-    // Ajout elements dans HTML
-    zoneFiltre = document.createElement("div");
-    zoneFiltre.className = 'zone_filtre';
-    const emplacementZoneFiltre = document.querySelector('#portfolio h2');
-    emplacementZoneFiltre.appendChild(zoneFiltre);
-    const boutonFiltre = document.createElement("input");
-    boutonFiltre.type = 'button';
-    boutonFiltre.className = 'btn_filtre';
-    boutonFiltre.value = 'Tous';
-    boutonFiltre.id = 0;
-    zoneFiltre.appendChild(boutonFiltre);
-    boutonFiltre.addEventListener("click", function() {
-        filtreTravaux(0);
-    })
-
-    // JS logic
-    for(let i = 0; i < categories.length; i++) {
-        
-        const boutonFiltre = document.createElement("input");
-        boutonFiltre.type = 'button';
-        boutonFiltre.className = 'btn_filtre';
-        boutonFiltre.value = categories[i].name;
-        boutonFiltre.id = categories[i].id;
-        zoneFiltre.appendChild(boutonFiltre);
-        boutonFiltre.addEventListener("click", function() {
-            filtreTravaux(categories[i].id);
-        })
-    }
-
-}
-
-
-function filtreTravaux(id) {
-    const figures = document.querySelectorAll('.work');
-
-    for (let i = 0; i < figures.length; i ++) {
-        figures[i].classList.remove('inactive');
-       
-        if (id !== 0) {
-            let categoryId = figures[i].getAttribute('data-category-id');
-            categoryId = Number(categoryId);
-
-            if (categoryId !== id) {
-                figures[i].classList.add('inactive');
-            }
-        }
-    }
-}
-
-function checkLoginStatus(){
-    if (user) {
-        loginAccueil.classList.add('inactive');
-        logoutAccueil.classList.remove('inactive');
-        blackBand.classList.remove('inactive');
-        zoneFiltre.classList.add('inactive');
-        myProjects.classList.add('margin_bottom');
-        zoneEdition.classList.remove('inactive');
-    } else {
-        logoutAccueil.classList.add('inactive');
-        zoneEdition.classList.add('inactive');
-    }
-}
-
-
-
-logOut.addEventListener('click', function(){
-    window.localStorage.clear();
-    window.location.replace('./login.html');
-})
-    
-function openModal() {
-    const modale = document.getElementById('modale1');
-    modale.classList.remove('hidden');
-}
-
-function closeModal() {
-    const modale = document.getElementById('modale1');
-    modale.classList.add('hidden');
-}
-
-function changePage(pageNumber) {
-    const modalPage1 = document.querySelector('.modalPage1');
-    const modalPage2 = document.querySelector('.modalPage2');
-    const arrowBack = document.querySelector('.back');
-
-    if (pageNumber === 1) {
-        // afficher page 1 et cacher page 2
-        modalPage1.classList.remove('hidden');
-        modalPage2.classList.add('hidden');
-        arrowBack.classList.add('hide');
-    } else if (pageNumber === 2) {
-        // afficher page 2 et cacher page 1
-        modalPage1.classList.add('hidden');
-        modalPage2.classList.remove('hidden');
-        arrowBack.classList.remove('hide');
-    }
-}
-
-async function showCategoryOptions (){
-    const selectCategories = document.querySelector(".select_category");
-
-    for (let i = 0; i < categories.length; i++){
-        const optionCategories = document.createElement("option");
-        optionCategories.value = categories[i].name;
-        optionCategories.id = categories[i].id;
-        optionCategories.innerHTML = categories[i].name;
-        optionCategories.classList.add('option_categorie')
-        selectCategories.appendChild(optionCategories);
-    }
-
-}
+ 
+// dl et preview image page 2 //
 
 async function capturerImage() {
     const downloadImage = document.querySelector('.download_img');
@@ -290,6 +282,28 @@ async function capturerImage() {
         }
     });
 }
+
+sendImage.addEventListener('click', function (e){
+    capturerImage();   
+});
+
+// montrer categories options formulaire //
+
+async function showCategoryOptions (){
+    const selectCategories = document.querySelector(".select_category");
+
+    for (let i = 0; i < categories.length; i++){
+        const optionCategories = document.createElement("option");
+        optionCategories.value = categories[i].name;
+        optionCategories.id = categories[i].id;
+        optionCategories.innerHTML = categories[i].name;
+        optionCategories.classList.add('option_categorie')
+        selectCategories.appendChild(optionCategories);
+    }
+
+}
+
+// valider le formulaire //
 
 async function validateFormulaire() {
     const titreImage = document.querySelector('.label_titre');
@@ -321,6 +335,8 @@ async function validateFormulaire() {
         resetModal();
     }
 }
+
+// reinitialiser modale //
 
 function resetModal() {
     formData = new FormData();
