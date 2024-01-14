@@ -114,7 +114,7 @@ async function showFiltres() {
         });
 
         if (boutonFiltre === document.activeElement) {
-            boutonFiltre.classList.add('active');
+              boutonFiltre.classList.add('active');
         }
     }
 }
