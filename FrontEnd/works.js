@@ -76,28 +76,30 @@ function addWork(id, categoryId, imageUrl, title) {
     figure.appendChild(figcaption);
 }
 
-async function showFiltres(){
+async function showFiltres() {
     const reponse = await fetch("http://localhost:5678/api/categories/");
     categories = await reponse.json();    
-    
-    // Ajout elements dans HTML
+
     zoneFiltre = document.createElement("div");
     zoneFiltre.className = 'zone_filtre';
     const emplacementZoneFiltre = document.querySelector('#portfolio h2');
     emplacementZoneFiltre.appendChild(zoneFiltre);
-    const boutonFiltre = document.createElement("input");
-    boutonFiltre.type = 'button';
-    boutonFiltre.className = 'btn_filtre';
-    boutonFiltre.value = 'Tous';
-    boutonFiltre.id = 0;
-    zoneFiltre.appendChild(boutonFiltre);
-    boutonFiltre.addEventListener("click", function() {
-        filtreTravaux(0);
-    })
 
-    // JS logic
-    for(let i = 0; i < categories.length; i++) {
-        
+    const boutonTous = document.createElement("input");
+    boutonTous.type = 'button';
+    boutonTous.className = 'btn_filtre active';
+    boutonTous.value = 'Tous';
+    boutonTous.id = 0;
+    zoneFiltre.appendChild(boutonTous);
+    boutonTous.addEventListener("click", function() {
+        filtreTravaux(0);
+        const autresBoutons = document.querySelectorAll('.btn_filtre');
+        autresBoutons.forEach(bouton => bouton.classList.remove('active'));
+        boutonTous.classList.add('active');
+	
+    });
+
+    for (let i = 0; i < categories.length; i++) {
         const boutonFiltre = document.createElement("input");
         boutonFiltre.type = 'button';
         boutonFiltre.className = 'btn_filtre';
@@ -105,10 +107,16 @@ async function showFiltres(){
         boutonFiltre.id = categories[i].id;
         zoneFiltre.appendChild(boutonFiltre);
         boutonFiltre.addEventListener("click", function() {
+            const autresBoutons = document.querySelectorAll('.btn_filtre');
+            autresBoutons.forEach(bouton => bouton.classList.remove('active'));
+            boutonFiltre.classList.add('active');
             filtreTravaux(categories[i].id);
-        })
-    }
+        });
 
+        if (boutonFiltre === document.activeElement) {
+            boutonFiltre.classList.add('active');
+        }
+    }
 }
 
 function filtreTravaux(id) {
@@ -161,7 +169,12 @@ function openModal() {
 function closeModal() {
     const modale = document.getElementById('modale1');
     modale.classList.add('hidden');
+    resetModal();
 }
+
+editButton.addEventListener('click', openModal);
+closeButton.addEventListener('click', closeModal);
+overlay.addEventListener('click', closeModal);
 
 function changePage(pageNumber) {
     const modalPage1 = document.querySelector('.modalPage1');
@@ -181,9 +194,7 @@ function changePage(pageNumber) {
     }
 }
 
-editButton.addEventListener('click', openModal);
-closeButton.addEventListener('click', closeModal);
-overlay.addEventListener('click', closeModal);
+
 changePage2.addEventListener('click', function() {
     changePage(2);
 });

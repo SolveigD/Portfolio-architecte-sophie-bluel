@@ -198,6 +198,17 @@ li a{
 	cursor: pointer;
 }
 
+.btn_filtre:active, .btn_filtre:hover{
+	background-color: #1D6154 ;
+	color:aliceblue;
+
+}
+
+.btn_filtre.active{
+	background-color:#1D6154;
+	color:aliceblue;
+}
+
 .inactive {
 	display: none;
 	visibility: hidden;
